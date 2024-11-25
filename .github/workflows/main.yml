@@ -23,6 +23,14 @@ jobs:
         with:
           node-version: 18
 
+        # 3. Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
       # 3. Instalar dependencias del proyecto
       - name: Install Dependencies
         run: npm ci
@@ -39,22 +47,18 @@ jobs:
           cp -r ./package.json dist/
           cd dist
           zip -r code.zip .
-      # 6. Desplegar la función Lambda con AWS CLI
-      - name: Deploy Lambda using AWS CLI
+      # 6. Create deployment package
+      - name: Create Deployment Package
         run: |
-          docker run \
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            -e AWS_DEFAULT_REGION="us-east-2" \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            amazon/aws-cli:2.15.2 \
-            lambda update-function-code \
+          cd dist
+          npm ci --production
+          cp -r ../package.json .
+          zip -r code.zip .
+        
+      # 7. Deploy to Lambda
+      - name: Deploy to Lambda
+        run: |
+          aws lambda update-function-code \
             --function-name arn:aws:lambda:us-east-2:890742573549:function:cardenascode-starwars-api-production-api \
             --zip-file fileb://dist/code.zip
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "us-east-2"
-
 

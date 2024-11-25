@@ -47,18 +47,22 @@ jobs:
       # 6. Create Deployment Package
       - name: Create Deployment Package
         run: |
-          mkdir -p dist/package
-          cp -r node_modules dist/package/
-          cp package.json dist/package/
-          rsync -av --exclude='package' dist/ dist/package/
-          cd dist/package
+          mkdir -p build_package
+          cp -r node_modules build_package/
+          cp package.json build_package/
+          cp -r dist/* build_package/
+          cd build_package
           npm prune --production
-          zip -r ../../code.zip .
-        
-      # 7. Deploy to Lambda
+          zip -r ../code.zip .
+
+      # 7. Optional: Verify the zip file exists
+      - name: Verify code.zip exists
+        run: ls -la code.zip
+
+      # 8. Deploy to Lambda
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
             --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
-            --zip-file fileb://dist/code.zip
+            --zip-file fileb://code.zip
 

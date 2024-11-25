@@ -47,8 +47,6 @@ jobs:
     - name: Configure Serverless
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           # No necesitas ejecutar 'serverless login' en CI/CD
           # Serverless V4 utilizará SERVERLESS_ACCESS_KEY automáticamente

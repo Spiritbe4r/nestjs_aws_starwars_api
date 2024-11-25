@@ -50,7 +50,7 @@ jobs:
           mkdir -p dist/package
           cp -r node_modules dist/package/
           cp package.json dist/package/
-          cp -r dist/* dist/package/
+          rsync -av --exclude='package' dist/ dist/package/
           cd dist/package
           npm prune --production
           zip -r ../../code.zip .

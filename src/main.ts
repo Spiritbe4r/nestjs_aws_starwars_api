@@ -45,7 +45,6 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Habilitar CORS
   app.enableCors();
 
   // Configuración de Swagger

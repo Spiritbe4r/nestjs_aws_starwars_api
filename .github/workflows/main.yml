@@ -40,8 +40,8 @@ jobs:
           cd dist
           zip -r code.zip .
       # 6. Desplegar la función Lambda con AWS CLI
-      - name: AWS CLI v2
-        uses: imehedi/actions-awscli-v2@latest
+      - name: Deploy Lambda using AWS CLI
+        uses: docker://amazon/aws-cli:2.15.2
         with:
           args: >
             lambda update-function-code

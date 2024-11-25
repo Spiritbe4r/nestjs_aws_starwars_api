@@ -1,0 +1,727 @@
+{
+  "D:\\spiritbear\\PROYECTS\\BACK\\NESTJS\\starwars-api": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.11",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "sls": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "cardenascode-starwars-api",
+            "frameworkVersion": "4",
+            "provider": {
+              "name": "aws",
+              "runtime": "nodejs20.x",
+              "architecture": "arm64",
+              "stage": "production",
+              "region": "us-east-2",
+              "memorySize": 2048,
+              "logRetentionInDays": 1,
+              "timeout": 15,
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "ApiLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/cardenascode-starwars-api-production-api",
+                      "RetentionInDays": 1
+                    }
+                  },
+                  "IamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "cardenascode-starwars-api",
+                                "production",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:TagResource"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cardenascode-starwars-api-production*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cardenascode-starwars-api-production*:*:*"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": {
+                        "Fn::Join": [
+                          "-",
+                          [
+                            "cardenascode-starwars-api",
+                            "production",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "lambdaRole"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "ApiLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+                        "S3Key": "serverless/cardenascode-starwars-api/production/1732507076383-2024-11-25T03:57:56.383Z/cardenascode-starwars-api.zip"
+                      },
+                      "Handler": "dist/main.handler",
+                      "Runtime": "nodejs20.x",
+                      "FunctionName": "cardenascode-starwars-api-production-api",
+                      "MemorySize": 2048,
+                      "Timeout": 15,
+                      "Architectures": [
+                        "arm64"
+                      ],
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "IamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "ApiLogGroup"
+                    ]
+                  },
+                  "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "ApiLambdaFunction"
+                      },
+                      "CodeSha256": "H9eSY+T0H+ihVYr1CJqH3gg7lAq6gU+NRZd06Nm6kQ8="
+                    }
+                  },
+                  "HttpApi": {
+                    "Type": "AWS::ApiGatewayV2::Api",
+                    "Properties": {
+                      "Name": "production-cardenascode-starwars-api",
+                      "ProtocolType": "HTTP"
+                    }
+                  },
+                  "HttpApiStage": {
+                    "Type": "AWS::ApiGatewayV2::Stage",
+                    "Properties": {
+                      "ApiId": {
+                        "Ref": "HttpApi"
+                      },
+                      "StageName": "$default",
+                      "AutoDeploy": true,
+                      "DefaultRouteSettings": {
+                        "DetailedMetricsEnabled": false
+                      }
+                    }
+                  },
+                  "ApiLambdaPermissionHttpApi": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "ApiLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "HttpApi"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "HttpApiIntegrationApi": {
+                    "Type": "AWS::ApiGatewayV2::Integration",
+                    "Properties": {
+                      "ApiId": {
+                        "Ref": "HttpApi"
+                      },
+                      "IntegrationType": "AWS_PROXY",
+                      "IntegrationUri": {
+                        "Fn::GetAtt": [
+                          "ApiLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "PayloadFormatVersion": "2.0",
+                      "TimeoutInMillis": 30000
+                    }
+                  },
+                  "HttpApiRouteAnyProxyVar": {
+                    "Type": "AWS::ApiGatewayV2::Route",
+                    "Properties": {
+                      "ApiId": {
+                        "Ref": "HttpApi"
+                      },
+                      "RouteKey": "ANY /{proxy+}",
+                      "Target": {
+                        "Fn::Join": [
+                          "/",
+                          [
+                            "integrations",
+                            {
+                              "Ref": "HttpApiIntegrationApi"
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "DependsOn": "HttpApiIntegrationApi"
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+                    "Export": {
+                      "Name": "sls-cardenascode-starwars-api-production-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "ApiLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo"
+                    },
+                    "Export": {
+                      "Name": "sls-cardenascode-starwars-api-production-ApiLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "HttpApiId": {
+                    "Description": "Id of the HTTP API",
+                    "Value": {
+                      "Ref": "HttpApi"
+                    },
+                    "Export": {
+                      "Name": "sls-cardenascode-starwars-api-production-HttpApiId"
+                    }
+                  },
+                  "HttpApiUrl": {
+                    "Description": "URL of the HTTP API",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "https://",
+                          {
+                            "Ref": "HttpApi"
+                          },
+                          ".execute-api.",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".",
+                          {
+                            "Ref": "AWS::URLSuffix"
+                          }
+                        ]
+                      ]
+                    },
+                    "Export": {
+                      "Name": "sls-cardenascode-starwars-api-production-HttpApiUrl"
+                    }
+                  }
+                }
+              },
+              "vpc": {}
+            },
+            "functions": {
+              "api": {
+                "handler": "dist/main.handler",
+                "events": [
+                  {
+                    "httpApi": {
+                      "method": "any",
+                      "path": "/{proxy+}"
+                    },
+                    "resolvedMethod": "ANY",
+                    "resolvedPath": "/{proxy+}"
+                  }
+                ],
+                "name": "cardenascode-starwars-api-production-api",
+                "package": {},
+                "memory": 2048,
+                "timeout": 15,
+                "runtime": "nodejs20.x",
+                "vpc": {},
+                "versionLogicalId": "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo"
+              }
+            },
+            "plugins": [
+              "serverless-jetpack",
+              "serverless-offline"
+            ]
+          },
+          "configFileDirPath": "D:\\spiritbear\\PROYECTS\\BACK\\NESTJS\\starwars-api",
+          "config": {
+            "type": "sls"
+          },
+          "options": {},
+          "stage": "production",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:sls",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "D:\\spiritbear\\PROYECTS\\BACK\\NESTJS\\starwars-api",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "cardenascode-starwars-api",
+      "frameworkVersion": "4",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs20.x",
+        "architecture": "arm64",
+        "stage": "production",
+        "region": "us-east-2",
+        "memorySize": 2048,
+        "logRetentionInDays": 1,
+        "timeout": 15,
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "ApiLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/cardenascode-starwars-api-production-api",
+                "RetentionInDays": 1
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "cardenascode-starwars-api",
+                          "production",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cardenascode-starwars-api-production*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cardenascode-starwars-api-production*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "cardenascode-starwars-api",
+                      "production",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "ApiLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+                  "S3Key": "serverless/cardenascode-starwars-api/production/1732507076383-2024-11-25T03:57:56.383Z/cardenascode-starwars-api.zip"
+                },
+                "Handler": "dist/main.handler",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "cardenascode-starwars-api-production-api",
+                "MemorySize": 2048,
+                "Timeout": 15,
+                "Architectures": [
+                  "arm64"
+                ],
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "ApiLogGroup"
+              ]
+            },
+            "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "ApiLambdaFunction"
+                },
+                "CodeSha256": "H9eSY+T0H+ihVYr1CJqH3gg7lAq6gU+NRZd06Nm6kQ8="
+              }
+            },
+            "HttpApi": {
+              "Type": "AWS::ApiGatewayV2::Api",
+              "Properties": {
+                "Name": "production-cardenascode-starwars-api",
+                "ProtocolType": "HTTP"
+              }
+            },
+            "HttpApiStage": {
+              "Type": "AWS::ApiGatewayV2::Stage",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "StageName": "$default",
+                "AutoDeploy": true,
+                "DefaultRouteSettings": {
+                  "DetailedMetricsEnabled": false
+                }
+              }
+            },
+            "ApiLambdaPermissionHttpApi": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "ApiLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "HttpApi"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HttpApiIntegrationApi": {
+              "Type": "AWS::ApiGatewayV2::Integration",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "IntegrationType": "AWS_PROXY",
+                "IntegrationUri": {
+                  "Fn::GetAtt": [
+                    "ApiLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "PayloadFormatVersion": "2.0",
+                "TimeoutInMillis": 30000
+              }
+            },
+            "HttpApiRouteAnyProxyVar": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "RouteKey": "ANY /{proxy+}",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationApi"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationApi"
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+              "Export": {
+                "Name": "sls-cardenascode-starwars-api-production-ServerlessDeploymentBucketName"
+              }
+            },
+            "ApiLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo"
+              },
+              "Export": {
+                "Name": "sls-cardenascode-starwars-api-production-ApiLambdaFunctionQualifiedArn"
+              }
+            },
+            "HttpApiId": {
+              "Description": "Id of the HTTP API",
+              "Value": {
+                "Ref": "HttpApi"
+              },
+              "Export": {
+                "Name": "sls-cardenascode-starwars-api-production-HttpApiId"
+              }
+            },
+            "HttpApiUrl": {
+              "Description": "URL of the HTTP API",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-cardenascode-starwars-api-production-HttpApiUrl"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "functions": {
+        "api": {
+          "handler": "dist/main.handler",
+          "events": [
+            {
+              "httpApi": {
+                "method": "any",
+                "path": "/{proxy+}"
+              },
+              "resolvedMethod": "ANY",
+              "resolvedPath": "/{proxy+}"
+            }
+          ],
+          "name": "cardenascode-starwars-api-production-api",
+          "package": {},
+          "memory": 2048,
+          "timeout": 15,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo"
+        }
+      },
+      "plugins": [
+        "serverless-jetpack",
+        "serverless-offline"
+      ]
+    },
+    "serviceRawFile": "service: cardenascode-starwars-api\r\n\r\nframeworkVersion: '4'\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  architecture: arm64\r\n  stage: production\r\n  region: us-east-2\r\n  memorySize: 2048\r\n  logRetentionInDays: 1\r\n  timeout: 15\r\n  \r\n\r\nfunctions:\r\n  api:\r\n    handler: dist/main.handler\r\n    events:\r\n      - httpApi:\r\n          method: any\r\n          path: /{proxy+}\r\n\r\nplugins:\r\n  - serverless-jetpack\r\n  - serverless-offline",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "9ab14d0eac13a4b617d25f2c97cdbf77",
+    "stage": "production",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "dd75c580-4352-4385-b23a-04d505b80344",
+    "orgName": "beardev7",
+    "userId": "DP0RBYtWc5Db8PjX8Z",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "beardev7",
+    "subscription": null,
+    "userEmail": "flywithmee20@gmail.com",
+    "serviceProviderAwsRegion": "us-east-2",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "890742573549",
+    "projectType": "traditional",
+    "versionSf": "4.4.11",
+    "serviceProviderAwsCfStackName": "cardenascode-starwars-api-production",
+    "integrations": {},
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-2:890742573549:stack/cardenascode-starwars-api-production/ff0cbc50-aad7-11ef-b042-06f48dff9b0d",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-2:890742573549:stack/cardenascode-starwars-api-production/ff0cbc50-aad7-11ef-b042-06f48dff9b0d",
+    "serviceProviderAwsCfStackCreated": "2024-11-25T02:50:14.691Z",
+    "serviceProviderAwsCfStackUpdated": "2024-11-25T03:58:11.914Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "ApiLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-2:890742573549:function:cardenascode-starwars-api-production-api:5",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-cardenascode-starwars-api-production-ApiLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "HttpApiId",
+        "OutputValue": "w6jcud9uf7",
+        "Description": "Id of the HTTP API",
+        "ExportName": "sls-cardenascode-starwars-api-production-HttpApiId"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+        "ExportName": "sls-cardenascode-starwars-api-production-ServerlessDeploymentBucketName"
+      },
+      {
+        "OutputKey": "HttpApiUrl",
+        "OutputValue": "https://w6jcud9uf7.execute-api.us-east-2.amazonaws.com",
+        "Description": "URL of the HTTP API",
+        "ExportName": "sls-cardenascode-starwars-api-production-HttpApiUrl"
+      }
+    ]
+  }
+}

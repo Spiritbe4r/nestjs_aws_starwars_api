@@ -6,7 +6,7 @@ on:
       - main
 env:
   AWS_REGION: us-east-2
-  LAMBDA_FUNCTION_NAME: cardenascode-starwars-api-production-api
+  LAMBDA_FUNCTION_NAME: arn:aws:lambda:us-east-2:890742573549:function:cardenascode-starwars-api-production-api
   AWS_ROLE_TO_ASSUME: arn:aws:iam::890742573549:role/cardenascode-starwars-api-production-us-east-2-lambdaRole 
   
 jobs:
@@ -44,26 +44,21 @@ jobs:
       - name: Build NestJS Project
         run: npm run build
 
-      # 5. Empaquetar el proyecto para Lambda
+      # 6. Create Deployment Package
       - name: Create Deployment Package
         run: |
-          mkdir -p dist
-          cp -r node_modules dist/
-          cp -r ./package.json dist/
-          cd dist
-          zip -r code.zip .
-      # 6. Create deployment package
-      - name: Create Deployment Package
-        run: |
-          cd dist
-          npm ci --production
-          cp -r ../package.json .
-          zip -r code.zip .
+          mkdir -p dist/package
+          cp -r node_modules dist/package/
+          cp package.json dist/package/
+          cp -r dist/* dist/package/
+          cd dist/package
+          npm prune --production
+          zip -r ../../code.zip .
         
       # 7. Deploy to Lambda
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
-            --function-name arn:aws:lambda:us-east-2:890742573549:function:cardenascode-starwars-api-production-api \
+            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
             --zip-file fileb://dist/code.zip
 

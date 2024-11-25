@@ -43,17 +43,18 @@ jobs:
     - name: nest build
       run: npm run build
      
-      # Paso 7: Configurar Serverless Framework
-    - name: Configure Serverless
-      env:
-        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-      run: |
-          # No necesitas ejecutar 'serverless login' en CI/CD
-          # Serverless V4 utilizará SERVERLESS_ACCESS_KEY automáticamente
+    - name: Install Serverless Framework
+      run: npm install -g serverless@4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2  # or your preferred region
+
     - name: Deploy to AWS Lambda
-      shell: bash
-      run: |
-        serverless deploy --stage production --verbose
+      run: serverless deploy --stage production --verbose
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
 

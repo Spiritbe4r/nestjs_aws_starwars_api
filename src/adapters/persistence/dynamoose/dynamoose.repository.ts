@@ -5,6 +5,13 @@ import { FavoriteCharacterModel } from './favorite-character.model';
 
 @Injectable()
 export class DynamooseRepository implements IFavoriteCharacterRepository {
+
+  /**
+ * Crea un personaje favorito en la base de datos dynamo db mediante dynamoose.
+ * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
+ * @param favoriteCharacter entidad de Dominio.
+ * @returns FavoriteCharacter dentidad de dominio
+ */
   async crear(
     favoriteCharacter: FavoriteCharacter,
   ): Promise<FavoriteCharacter> {
@@ -26,7 +33,11 @@ export class DynamooseRepository implements IFavoriteCharacterRepository {
       throw new Error('Error al crear Favorito');
     }
   }
-
+  /**
+   * Lista todos los personajes favoritos de la base de datos dynamo db mediante dynamoose.
+   * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
+   * @returns List de FavoriteCharacter entidad de dominio
+   */
   async obtenerTodos(): Promise<FavoriteCharacter[]> {
     const items = await FavoriteCharacterModel.scan().exec();
     return items.map(

@@ -12,24 +12,43 @@ export class FavoriteCharacterService {
     @Inject('FavoriteCharacterRepository')
     private readonly repository: IFavoriteCharacterRepository,
     @Inject('SwapiInterface') private readonly swapiService: ISwapiService,
-  ) {}
+  ) { }
 
+  /**
+   * Crea un personaje favorito en la base de datos dynamo db.
+   * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
+   * @param crearFavoritoDto DTO de creación.
+   * @returns FavoriteCharacterResponseDto DTO de respuesta
+   */
   public async crearFavorito(
     crearFavoritoDto: CrearFavoritoDto,
   ): Promise<FavoriteCharacterResponseDto> {
     const nuevoFavorito =
       FavoriteCharacterMapper.toDomainEntity(crearFavoritoDto);
 
-    const faviritoCreado = await this.repository.crear(nuevoFavorito);
-    return FavoriteCharacterMapper.toResponseDto(faviritoCreado);
+    const favoritoCreado = await this.repository.crear(nuevoFavorito);
+    return FavoriteCharacterMapper.toResponseDto(favoritoCreado);
   }
 
+
+  /**
+    * Consulta a la api de SWAPI para obtener el personaje y la planeta.
+    * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
+    * @returns FavoriteCharacterResponseDto[] DTO de respuesta es la lista de personajes favoritos que viene desde Dynamo Db. 
+    */
   async obtenerFavoritos(): Promise<FavoriteCharacterResponseDto[]> {
     return (await this.repository.obtenerTodos()).map((item) =>
       FavoriteCharacterMapper.toResponseDto(item),
     );
   }
 
+  /**
+   * Consulta a la api de SWAPI para obtener el personaje y la planeta.
+   * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
+   * @param id Entidad de dominio.
+   * @returns ISwapiResponse DTO de respuesta es una combinacion del response de la api de  
+   * Personajes de SWAPI y la informacion de la planeta de SWAPI.
+   */
   async obtenerPersonajeSWAPI(id: string): Promise<ISwapiResponse> {
     const personaje = await this.swapiService.obtenerPersonaje(id);
 

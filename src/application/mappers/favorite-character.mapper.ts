@@ -12,7 +12,6 @@ export class FavoriteCharacterMapper {
     entity: FavoriteCharacter,
   ): FavoriteCharacterResponseDto {
     const dto = new FavoriteCharacterResponseDto();
-    console.log(' entity.personajes_id ', entity);
     dto.id = entity.id;
     dto.nombre = entity.nombre;
     dto.planeta = entity.planeta;

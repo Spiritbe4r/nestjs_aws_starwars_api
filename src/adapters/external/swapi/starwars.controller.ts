@@ -11,13 +11,14 @@ import { FavoriteCharacterResponseDto } from '../../../application/dto/favorite-
 import { FavoriteCharacterService } from '../../../application/services/favorite-character.service';
 import { FavoriteCharacter } from '../../../domain/entities/favorite-character.entity';
 import { ISwapiResponse } from './swapi.types';
+import { STARWARS_API_FAVORITES_ROUTE, STARWARS_API_PATH, STARWARS_API_PERSONAJE_ROUTE } from '../../../common/constants/constants';
 
 @ApiTags('StarWars')
-@Controller('starwars')
+@Controller(STARWARS_API_PATH)
 export class StarwarsController {
   constructor(
     private readonly favoriteCharacterService: FavoriteCharacterService,
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: 'Crear un personaje favorito' })
   @ApiResponse({
@@ -30,7 +31,7 @@ export class StarwarsController {
     description: 'Datos inválidos proporcionados.',
   })
   @ApiBody({ type: CrearFavoritoDto })
-  @Post('favoritos')
+  @Post(STARWARS_API_FAVORITES_ROUTE)
   async crearFavorito(
     @Body() crearFavoritoDto: CrearFavoritoDto,
   ): Promise<FavoriteCharacterResponseDto> {
@@ -43,7 +44,7 @@ export class StarwarsController {
     description: 'Lista de personajes favoritos obtenida exitosamente.',
     type: [FavoriteCharacterResponseDto],
   })
-  @Get('favoritos')
+  @Get(STARWARS_API_FAVORITES_ROUTE)
   async obtenerFavoritos(): Promise<FavoriteCharacterResponseDto[]> {
     return this.favoriteCharacterService.obtenerFavoritos();
   }
@@ -62,10 +63,10 @@ export class StarwarsController {
     name: 'id',
     type: 'string',
     description: 'ID único del personaje favorito.',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    example: '10',
   })
-  @Get('personaje/:id')
-  async obtenerPersonaje(@Param('id') id: string) : Promise<ISwapiResponse> {
+  @Get(`${STARWARS_API_PERSONAJE_ROUTE}/:id`)
+  async obtenerPersonaje(@Param('id') id: string): Promise<ISwapiResponse> {
     return this.favoriteCharacterService.obtenerPersonajeSWAPI(id);
   }
 }

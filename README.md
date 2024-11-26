@@ -89,11 +89,14 @@ El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento d
 1. Ejecutar Pruebas Unitarias
 bash
 
-pnpm run test
+npm run test
 
 ### 7. Estructura del Proyecto
 
 starwars-api/
+├── .serverless/
+├── .github/workflows/main.yml
+├── .gitignore
 ├── src/
 │   ├── adapters/
 │   │   ├── external/
@@ -110,13 +113,25 @@ starwars-api/
 │   │   │   └── favorite-character-response.dto.ts
 │   │   └── ports/
 │   │       └── repository.interface.ts
+│   ├── common/
+        └── constants/
+│   │   └── filters/
+│   │       └── http-exception.filter.ts
+    
+    ├── infrastructure/
+│   │   └── config/
+│   │       └── dynamoose.config.ts
 │   └── domain/
 │       └── entities/
 │           └── favorite-character.entity.ts
 ├── test/
-│   └── ... # Otros archivos de prueba si existen
+│   └── ..
 ├── .env
-├── jest.config.js
+├── eslint.config.mjs
+├── docker-compose.yml
+├── nest-cli.json
+├── serverless.yml
+├── tsconfig.build.json
 ├── package.json
 ├── README.md
 └── tsconfig.json

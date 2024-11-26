@@ -4,14 +4,15 @@ import { IFavoriteCharacterRepository } from '../ports/repository.interface';
 import { ISwapiService } from '../ports/swapi.interface';
 import { FavoriteCharacterResponseDto } from '../dto/favorite-character-response.dto';
 import { FavoriteCharacterMapper } from '../mappers/favorite-character.mapper';
-import { ISwapiResponse } from 'src/adapters/external/swapi/swapi.types';
+import { ISwapiResponse } from '../../adapters/external/swapi/swapi.types';
+import { FAVORITES_CHARACTER_REPO_KEY, SWAPI_SERVICE_KEY } from '../../common/constants/constants';
 
 @Injectable()
 export class FavoriteCharacterService {
   constructor(
-    @Inject('FavoriteCharacterRepository')
+    @Inject(FAVORITES_CHARACTER_REPO_KEY)
     private readonly repository: IFavoriteCharacterRepository,
-    @Inject('SwapiInterface') private readonly swapiService: ISwapiService,
+    @Inject(SWAPI_SERVICE_KEY) private readonly swapiService: ISwapiService,
   ) { }
 
   /**

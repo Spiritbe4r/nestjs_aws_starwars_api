@@ -1,5 +1,5 @@
 export interface IFavoriteCharacter {
-  personajes_id: string;
+  id: string;
   nombre: string;
   planeta: string;
   createdAt?: Date;

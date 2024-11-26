@@ -50,11 +50,19 @@ Asegúrate de tener Node.js y ppnpm instalados en tu sistema.
 
 bash
 
-pnpm install
+npm install
 
 ### 4 .Configuración
 La aplicación utiliza variables de entorno para la configuración. Crea un archivo .env en la raíz del proyecto y añade las siguientes variables:
 
+NODE_ENV=development
+
+SWAPI_ENDPOINT=https://swapi.py4e.com/api
+
+AWS_ACS_KEY_ID=tu_access_key_id
+AWS_SECRET_ACS_KEY=tu_secret_access_key
+AWS_RGN=us-east-2
+DYNAMODB_ENDPOINT=https://dynamodb.us-east-1.amazonaws.com
 
 ### 5. Uso
 Una vez que hayas instalado las dependencias y configurado las variables de entorno, puedes iniciar la aplicación.
@@ -62,7 +70,7 @@ Una vez que hayas instalado las dependencias y configurado las variables de ento
 1. Iniciar la Aplicación
 bash
 
-pnpm run start:dev
+npm run start:dev
 La aplicación se ejecutará en el puerto especificado en el archivo .env (por defecto, http://localhost:3000).
 
 2. Endpoints de la API
@@ -70,9 +78,10 @@ La aplicación se ejecutará en el puerto especificado en el archivo .env (por d
 Para interactuar con la API, consulta la documentación detallada disponible en la interfaz de Swagger. Swagger proporciona una interfaz interactiva donde puedes ver todos los endpoints disponibles, sus parámetros, y realizar pruebas directamente desde el navegador.
 
 Acceder a la Documentación de Swagger
-Una vez que la aplicación esté en ejecución, puedes acceder a la documentación de Swagger navegando a la siguiente URL en tu navegador:
+Una vez que la aplicación esté en ejecución, puedes acceder a la documentación de Swagger local o en AWS navegando a la siguiente URL en tu navegador:
 
-http://localhost:3000/api-docs
+LOCAL http://localhost:3000/api-docs
+AWS https://w6jcud9uf7.execute-api.us-east-2.amazonaws.com/api-docs
 
 ### 6. Pruebas
 El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento de los componentes clave, especialmente el repositorio que interactúa con DynamoDB.
@@ -113,4 +122,4 @@ starwars-api/
 └── tsconfig.json
 
 ### 8. Licencia
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este proyecto está licenciado bajo la Licencia MIT.

@@ -31,9 +31,9 @@ export class SwapiService implements ISwapiService {
         birth_year: 'anio_de_nacimiento',
         gender: 'genero',
         homeworld: 'mundo_natal',
-        films: 'películas',
+        films: 'peliculas',
         species: 'especies',
-        vehicles: 'vehículos',
+        vehicles: 'vehiculos',
         starships: 'naves_espaciales',
         created: 'creado',
         edited: 'editado',
@@ -55,7 +55,7 @@ export class SwapiService implements ISwapiService {
  * Obtiene la informacion de la planeta de SWAPI.
  * @autor Elvin ronal Cardenas Calcina <cardenascode7@gmail.com>
  * @param planetRoute ruta de SWAPI para obtener la informacion de la planeta, viene 
- * de la respuesta de la Api de consultar Personaje.
+ * de la respuesta de la Api de consultar Personaje campo mundo_natal.
  * @returns ISwapiPlanet interfaz para la Respuesta de SWAPI o null si no se encuentra la informacion de la planeta.
  */
   async obtenerPlaneta(planetRoute: string): Promise<ISwapiPlanet> {

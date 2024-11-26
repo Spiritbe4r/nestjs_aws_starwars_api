@@ -47,7 +47,7 @@ export interface ISwapiPersonaje {
     mundo_natal:        string;
     peliculas:          string;
     especies:           string;
-    vehículos:          string;
+    vehiculos:          string;
     naves_espaciales:   string;
     creado:             string;
     editado:            string;

@@ -9,7 +9,6 @@ import {
 import { CrearFavoritoDto } from '../../../application/dto/crear-favorito.dto';
 import { FavoriteCharacterResponseDto } from '../../../application/dto/favorite-character-response.dto';
 import { FavoriteCharacterService } from '../../../application/services/favorite-character.service';
-import { FavoriteCharacter } from '../../../domain/entities/favorite-character.entity';
 import { ISwapiResponse } from './swapi.types';
 import { STARWARS_API_FAVORITES_ROUTE, STARWARS_API_PATH, STARWARS_API_PERSONAJE_ROUTE } from '../../../common/constants/constants';
 

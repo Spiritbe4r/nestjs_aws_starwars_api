@@ -81,7 +81,7 @@ Acceder a la Documentación de Swagger
 Una vez que la aplicación esté en ejecución, puedes acceder a la documentación de Swagger local o en AWS navegando a la siguiente URL en tu navegador:
 
 LOCAL http://localhost:3000/api-docs
-AWS https://w6jcud9uf7.execute-api.us-east-2.amazonaws.com/api-docs
+AWS https://0bq5xp6612.execute-api.us-east-2.amazonaws.com/api-docs
 
 ### 6. Pruebas
 El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento de los componentes clave, especialmente el repositorio que interactúa con DynamoDB.

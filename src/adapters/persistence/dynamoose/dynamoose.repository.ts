@@ -19,7 +19,6 @@ export class DynamooseRepository implements IFavoriteCharacterRepository {
       const creado = await FavoriteCharacterModel.create({
         nombre: favoriteCharacter.nombre,
         planeta: favoriteCharacter.planeta,
-        id: favoriteCharacter.id,
       });
       return new FavoriteCharacter(
         creado.id,

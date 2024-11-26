@@ -2,6 +2,75 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application",
   "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ServerlessDeploymentBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ServerlessDeploymentBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      },
+                      "/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
     "ApiLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -91,10 +160,12 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "serverless-framework-deployments-us-east-2-46204186-7ca0",
-          "S3Key": "serverless/cardenascode-starwars-api/production/1732507076383-2024-11-25T03:57:56.383Z/cardenascode-starwars-api.zip"
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/cardenascode-starwars-api/production/1732585014195-2024-11-26T01:36:54.195Z/cardenascode-starwars-api.zip"
         },
-        "Handler": "dist/main.handler",
+        "Handler": "dist/lambda.handler",
         "Runtime": "nodejs20.x",
         "FunctionName": "cardenascode-starwars-api-production-api",
         "MemorySize": 2048,
@@ -113,14 +184,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo": {
+    "ApiLambdaVersionwzxibgbi49G5tUJXH0i36Okkj8GjW1M2VmTnlMxPLXw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "H9eSY+T0H+ihVYr1CJqH3gg7lAq6gU+NRZd06Nm6kQ8="
+        "CodeSha256": "n0MCnaXqaKHUpCaRw6+V4gvnezCrD5q7MYB2zoTZhBk="
       }
     },
     "HttpApi": {
@@ -221,7 +292,9 @@
   },
   "Outputs": {
     "ServerlessDeploymentBucketName": {
-      "Value": "serverless-framework-deployments-us-east-2-46204186-7ca0",
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      },
       "Export": {
         "Name": "sls-cardenascode-starwars-api-production-ServerlessDeploymentBucketName"
       }
@@ -229,7 +302,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersion41Jr90Hro4WzSzTCqZSosqfDEg7Bc5CLldYi3CRgo"
+        "Ref": "ApiLambdaVersionwzxibgbi49G5tUJXH0i36Okkj8GjW1M2VmTnlMxPLXw"
       },
       "Export": {
         "Name": "sls-cardenascode-starwars-api-production-ApiLambdaFunctionQualifiedArn"

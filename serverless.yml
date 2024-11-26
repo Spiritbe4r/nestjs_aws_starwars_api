@@ -15,7 +15,7 @@ provider:
 
 functions:
   api:
-    handler: dist/main.handler
+    handler: dist/lambda.handler
     events:
       - httpApi:
           method: any

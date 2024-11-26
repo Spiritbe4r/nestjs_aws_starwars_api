@@ -39,13 +39,13 @@
 
 Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local.
 
-### Clonar el Repositorio
+###  Clonar el Repositorio
+
 
 git clone https://github.com/Spiritbe4r/nestjs_aws_starwars_api
-cd nestjs_aws_starwars_api
+cd nestjs_aws_starwars_api 
 
 ### Instalar Dependencias
-
 Asegúrate de tener Node.js y ppnpm instalados en tu sistema.
 
 bash
@@ -53,7 +53,6 @@ bash
 npm install
 
 ### 4 .Configuración
-
 La aplicación utiliza variables de entorno para la configuración. Crea un archivo .env en la raíz del proyecto y añade las siguientes variables:
 
 NODE_ENV=development
@@ -66,11 +65,10 @@ AWS_RGN=us-east-2
 DYNAMODB_ENDPOINT=https://dynamodb.us-east-1.amazonaws.com
 
 ### 5. Uso
-
 Una vez que hayas instalado las dependencias y configurado las variables de entorno, puedes iniciar la aplicación.
 
 1. Iniciar la Aplicación
-   bash
+bash
 
 npm run start:dev
 La aplicación se ejecutará en el puerto especificado en el archivo .env (por defecto, http://localhost:3000).
@@ -86,11 +84,10 @@ LOCAL http://localhost:3000/api-docs
 AWS https://w6jcud9uf7.execute-api.us-east-2.amazonaws.com/api-docs
 
 ### 6. Pruebas
-
 El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento de los componentes clave, especialmente el repositorio que interactúa con DynamoDB.
 
 1. Ejecutar Pruebas Unitarias
-   bash
+bash
 
 npm run test
 
@@ -101,43 +98,41 @@ starwars-api/
 ├── .github/workflows/main.yml
 ├── .gitignore
 ├── src/
-│ ├── adapters/
-│ │ ├── external/
-│ │ │ └── swapi/
-│ │ │ └── swapi.service.ts
-│ │ │ └── swapi.controller.ts
-│ │ │ └── swapi.controller.spec.ts
-│ │ └── persistence/
-│ │ └── dynamoose/
-│ │ ├── favorite-character.model.ts
-│ │ ├── favorite-character.interface.ts
-│ │ └── dynamoose.repository.spec.ts
-│ │ ├── dynamoose.repository.ts
-│ ├── application/
-│ │ ├── services/
-│ │ │ ├── favorite-character.service.ts
-│ │ │ └── favorite-character.service.spec.ts
-│ │ ├── dtos/
-│ │ │ ├── crear-favorito.dto.ts
-│ │ │ └── favorite-character-response.dto.ts
-│ │ ├── mappers/
-│ │ │ └── favorite-character.mapper.ts
-│ │ └── ports/
-│ │ └── repository.interface.ts
-│ ├── common/
-└── constants/constants.ts
-│ │ └── filters/
-│ │ └── http-exception.filter.ts
-
-    ├── infrastructure/
-
-│ │ └── config/
-│ │ └── dynamoose.config.ts
-│ └── domain/
-│ └── entities/
-│ └── favorite-character.entity.ts
+│   ├── adapters/
+│   │   ├── external/
+│   │   │   └── swapi/
+│   │   │       └── swapi.service.ts
+│   │   │       └── swapi.controller.ts
+│   │   │       └── swapi.controller.spec.ts
+│   │   └── persistence/
+│   │       └── dynamoose/
+│   │           ├── favorite-character.model.ts
+│   │           ├── favorite-character.interface.ts
+│   │           └── dynamoose.repository.spec.ts
+│   │           ├── dynamoose.repository.ts
+│   ├── application/
+│   │   ├── services/
+│   │   │   ├── favorite-character.service.ts
+│   │   │   └── favorite-character.service.spec.ts
+│   │   ├── dtos/
+│   │   │   ├── crear-favorito.dto.ts
+│   │   │   └── favorite-character-response.dto.ts
+│   │   ├── mappers/
+│   │   │   └── favorite-character.mapper.ts
+│   │   └── ports/
+│   │       └── repository.interface.ts
+│   ├── common/
+│   │   └── constants/constants.ts
+│   │   └── filters/
+│   │       └── http-exception.filter.ts
+│   ├── infrastructure/
+│   │   └── config/
+│   │       └── dynamoose.config.ts
+│   └── domain/
+│       └── entities/
+│           └── favorite-character.entity.ts
 ├── test/
-│ └── ..
+│   └── ..
 ├── .env
 ├── eslint.config.mjs
 ├── docker-compose.yml
@@ -149,5 +144,4 @@ starwars-api/
 └── tsconfig.json
 
 ### 8. Licencia
-
 Este proyecto está licenciado bajo la Licencia MIT.

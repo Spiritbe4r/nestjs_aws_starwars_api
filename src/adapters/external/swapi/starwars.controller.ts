@@ -49,7 +49,7 @@ export class StarwarsController {
     return this.favoriteCharacterService.obtenerFavoritos();
   }
 
-  @ApiOperation({ summary: 'Obtener un personaje favorito por ID' })
+  @ApiOperation({ summary: 'Obtener un personaje favorito por ID con su planeta de origen.' })
   @ApiResponse({
     status: 200,
     description: 'Personaje favorito obtenido exitosamente.',

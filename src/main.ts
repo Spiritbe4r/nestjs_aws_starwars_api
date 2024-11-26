@@ -1,32 +1,31 @@
-import { configure as serverlessExpress } from '@codegenie/serverless-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 
-let cachedServer;
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-export const handler = async (event, context) => {
-  if (!cachedServer) {
-    const nestApp = await NestFactory.create(AppModule);
+  app.enableCors();
 
-    const config = new DocumentBuilder()
-      .setTitle('StarWars API Hexagonal')
-      .setDescription(
-        'API para gestionar personajes favoritos e integrar SWAPI',
-      )
-      .setVersion('1.0')
-      .build();
-    const document = SwaggerModule.createDocument(nestApp, config);
-    SwaggerModule.setup('api-docs', nestApp, document);
+  // Configuración de Swagger
+  const config = new DocumentBuilder()
+    .setTitle('StarWars API Hexagonal')
+    .setDescription('API para gestionar personajes favoritos e integrar SWAPI')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
-    nestApp.useGlobalFilters(new AllExceptionsFilter());
+  // Aplicar el filtro de excepciones global
+  app.useGlobalFilters(new AllExceptionsFilter());
 
-    await nestApp.init();
-    cachedServer = serverlessExpress({
-      app: nestApp.getHttpAdapter().getInstance(),
-    });
-  }
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`Aplicación corriendo en http://localhost:${port}`);
+  console.log(
+    `Documentación de Swagger disponible en http://localhost:${port}/api-docs`,
+  );
+}
 
-  return cachedServer(event, context);
-};
+bootstrap();

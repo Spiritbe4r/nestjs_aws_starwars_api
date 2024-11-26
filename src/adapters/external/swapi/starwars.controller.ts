@@ -10,6 +10,7 @@ import { CrearFavoritoDto } from '../../../application/dto/crear-favorito.dto';
 import { FavoriteCharacterResponseDto } from '../../../application/dto/favorite-character-response.dto';
 import { FavoriteCharacterService } from '../../../application/services/favorite-character.service';
 import { FavoriteCharacter } from '../../../domain/entities/favorite-character.entity';
+import { ISwapiResponse } from './swapi.types';
 
 @ApiTags('StarWars')
 @Controller('starwars')
@@ -51,7 +52,7 @@ export class StarwarsController {
   @ApiResponse({
     status: 200,
     description: 'Personaje favorito obtenido exitosamente.',
-    type: FavoriteCharacter,
+    type: Object,
   })
   @ApiResponse({
     status: 404,
@@ -64,7 +65,7 @@ export class StarwarsController {
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @Get('personaje/:id')
-  async obtenerPersonaje(@Param('id') id: string) {
+  async obtenerPersonaje(@Param('id') id: string) : Promise<ISwapiResponse> {
     return this.favoriteCharacterService.obtenerPersonajeSWAPI(id);
   }
 }

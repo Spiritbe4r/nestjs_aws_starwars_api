@@ -4,6 +4,7 @@ import { IFavoriteCharacterRepository } from '../ports/repository.interface';
 import { ISwapiService } from '../ports/swapi.interface';
 import { FavoriteCharacterResponseDto } from '../dto/favorite-character-response.dto';
 import { FavoriteCharacterMapper } from '../mappers/favorite-character.mapper';
+import { ISwapiResponse } from 'src/adapters/external/swapi/swapi.types';
 
 @Injectable()
 export class FavoriteCharacterService {
@@ -29,7 +30,7 @@ export class FavoriteCharacterService {
     );
   }
 
-  async obtenerPersonajeSWAPI(id: string): Promise<any> {
+  async obtenerPersonajeSWAPI(id: string): Promise<ISwapiResponse> {
     const personaje = await this.swapiService.obtenerPersonaje(id);
 
     const planeta = await this.swapiService.obtenerPlaneta(
@@ -39,6 +40,6 @@ export class FavoriteCharacterService {
     return {
       ...personaje,
       planeta,
-    };
+    } as unknown as ISwapiResponse;
   }
 }

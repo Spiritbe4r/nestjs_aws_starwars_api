@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { CrearFavoritoDto } from 'src/application/dto/crear-favorito.dto';
 import { DynamooseRepository } from './dynamoose.repository';

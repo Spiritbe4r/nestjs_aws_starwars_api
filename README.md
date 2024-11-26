@@ -25,6 +25,11 @@
 - **Validación** de datos de entrada para garantizar la integridad de la información.
 - **Manejo de errores** robusto para una experiencia de usuario fluida.
 - **Pruebas unitarias** con Jest para asegurar la calidad del código.
+- **Deploy** en AWS Lambda y AWS DynamoDB.
+- **Documentación** de Swagger.
+- **Pruebas de integración** con Postman.
+- **Configuración** de variables de entorno.
+- **evidencias** de la implementación vease la carpeta EVIDENCIAS.
 
 ### 2. Tecnologías Utilizadas
 
@@ -84,7 +89,7 @@ LOCAL http://localhost:3000/api-docs
 AWS https://0bq5xp6612.execute-api.us-east-2.amazonaws.com/api-docs
 
 ### 6. Pruebas
-El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento de los componentes clave, especialmente el repositorio que interactúa con DynamoDB.
+El proyecto incluye pruebas unitarias para asegurar el correcto funcionamiento de los componentes clave, especialmente el repositorio que interactúa con DynamoDB, ademas los controladores y servicios. Para ejecutar las pruebas unitarias, sigue estos pasos:
 
 1. Ejecutar Pruebas Unitarias
 bash
@@ -94,6 +99,9 @@ npm run test
 ### 7. Estructura del Proyecto
 
 starwars-api/
+├── EVIDENCIAS/deploy_aws_lambda.png
+├── EVIDENCIAS/SWAPI_API_CHALLENGE.postman_collection.json
+├── EVIDENCIAS/deploy-cloud-formation.png
 ├── .serverless/
 ├── .github/workflows/main.yml
 ├── .gitignore
@@ -142,6 +150,7 @@ starwars-api/
 ├── package.json
 ├── README.md
 └── tsconfig.json
+
 
 ### 8. Licencia
 Este proyecto está licenciado bajo la Licencia MIT.
